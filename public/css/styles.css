@@ -103,3 +103,26 @@ button {
   margin-top: 10px;
   padding: 8px 12px;
 }
+
+/* auth styles */
+.auth {
+  background: #fafafa;
+  display: none;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.auth.open {
+  display: block;
+}
+.auth a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.auth .modal {
+  display: none;
+}
+.auth .modal.active {
+  display: block;
+}
