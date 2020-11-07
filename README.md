@@ -47,20 +47,26 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 ```
 
-## functions
+## Auth Triggers
 
 user create
+firestore の users collection に create
 
 ```
 exports.newUserSignup = functions.auth.user().onCreate((user) => {
-  console.log('user created', user.email, user.uid);
+  return admin.firestore().collection('users').doc(user.uid).set({
+    email: user.email,
+    upvotedOn: [],
+  });
 });
 ```
 
 user delete
+firestore の users collection で delete
 
 ```
 exports.userDeleted = functions.auth.user().onDelete((user) => {
-  console.log('user deleted', user.email, user.uid);
+  const doc = admin.firestore().collection('users').doc(user.uid);
+  return doc.delete();
 });
 ```
