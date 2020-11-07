@@ -1,5 +1,11 @@
 # tutorial-firebase-functions
 
+localhost 起動
+
+```
+$ firebase serve
+```
+
 firebase functions のみデプロイ
 
 ```
@@ -38,5 +44,23 @@ firebase.auth().onAuthStateChanged((user) => {
   .
   .
   .
+});
+```
+
+## functions
+
+user create
+
+```
+exports.newUserSignup = functions.auth.user().onCreate((user) => {
+  console.log('user created', user.email, user.uid);
+});
+```
+
+user delete
+
+```
+exports.userDeleted = functions.auth.user().onDelete((user) => {
+  console.log('user deleted', user.email, user.uid);
 });
 ```
