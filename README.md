@@ -71,10 +71,40 @@ exports.userDeleted = functions.auth.user().onDelete((user) => {
 });
 ```
 
-## Adding Requests
+## fucntions
 
 - functions を呼び出す
 
 ```
 const addRequest = firebase.functions().httpsCallable('addRequest');
+```
+
+## firestore rules
+
+- 読み許可
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+    	allow read;
+      allow write: if false;
+    }
+  }
+}
+```
+
+## firestore
+
+- collection の data 取得
+
+```
+const ref = firebase.firestore().collection('requests');
+
+ref.onSnapshot((snapshot) => {
+  let requests = [];
+  snapshot.forEach((doc) => {
+    requests.push({ ...doc.data(), id: doc.id });
+  });
 ```
