@@ -49,8 +49,8 @@ firebase.auth().onAuthStateChanged((user) => {
 
 ## Auth Triggers
 
-user create
-firestore の users collection に create
+- user create
+- firestore の users collection に create
 
 ```
 exports.newUserSignup = functions.auth.user().onCreate((user) => {
@@ -61,12 +61,20 @@ exports.newUserSignup = functions.auth.user().onCreate((user) => {
 });
 ```
 
-user delete
-firestore の users collection で delete
+- user delete
+- firestore の users collection で delete
 
 ```
 exports.userDeleted = functions.auth.user().onDelete((user) => {
   const doc = admin.firestore().collection('users').doc(user.uid);
   return doc.delete();
 });
+```
+
+## Adding Requests
+
+- functions を呼び出す
+
+```
+const addRequest = firebase.functions().httpsCallable('addRequest');
 ```
