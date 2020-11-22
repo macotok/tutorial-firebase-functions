@@ -108,3 +108,16 @@ ref.onSnapshot((snapshot) => {
     requests.push({ ...doc.data(), id: doc.id });
   });
 ```
+
+## firestore data trigger
+
+- firestore に data が格納されたかを検知
+- collection、id を取得できる
+
+```
+functions.firestore.document('/{collection}/{id}').onCreate((snap, context) => {
+    console.log(snap.data());
+    const collection = context.params.collection;
+    const id = context.params.id;
+});
+```

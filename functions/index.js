@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const { firestore } = require('firebase-admin');
 admin.initializeApp();
 
 exports.newUserSignup = functions.auth.user().onCreate((user) => {
@@ -66,3 +67,22 @@ exports.upvote = functions.https.onCall(async (data, context) => {
     upvotes: admin.firestore.FieldValue.increment(1),
   });
 });
+
+// firestore trigger for tracking activity
+exports.logActivities = functions.firestore
+  .document('/{collection}/{id}')
+  .onCreate((snap, context) => {
+    console.log(snap.data());
+
+    const collection = context.params.collection;
+    const activities = admin.firestore().collection('activities');
+
+    if (collection === 'requests') {
+      return activities.add({ text: 'a new tutorial request was added' });
+    }
+    if (collection === 'users') {
+      return activities.add({ text: 'a new user signed up' });
+    }
+
+    return null;
+  });
